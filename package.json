@@ -1,0 +1,40 @@
+{
+  "name": "products-grid",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Build a grid of product items and ads",
+  "main": "server/index.js",
+  "scripts": {
+    "start:server": "json-server server/index.js --routes server/routes.json --middlewares server/handle-delay.js server/handle-ads.js",
+    "build": "webpack --mode production",
+    "start:client": "webpack-dev-server --open --hot --mode development",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "",
+  "dependencies": {
+    "clean-webpack-plugin": "^3.0.0",
+    "cool-ascii-faces": "^1.3.4",
+    "css-loader": "^3.4.2",
+    "file-loader": "^5.0.2",
+    "html-loader": "^0.5.5",
+    "json-server": "^0.9.6",
+    "less": "^3.11.1",
+    "less-loader": "^5.0.0",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-router": "^5.1.2",
+    "react-router-dom": "^5.1.2",
+    "style-loader": "^1.1.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.8.4",
+    "@babel/preset-env": "^7.8.4",
+    "@babel/preset-react": "^7.8.3",
+    "babel-loader": "^8.0.6",
+    "html-webpack-plugin": "^3.2.0",
+    "webpack": "^4.41.6",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.10.3"
+  }
+}
