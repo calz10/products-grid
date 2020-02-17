@@ -6,7 +6,7 @@ module.exports = {
   entry: './client/app.js',
   mode: 'development',
   output: {
-    path: path.resolve(__dirname, 'public'),
+    path: path.resolve(__dirname, 'public/dist'),
     filename: 'bundle.[hash].js'
   },
   node: {
@@ -16,7 +16,7 @@ module.exports = {
   plugins: [
     new HtmlWebPackPlugin({
       filename: "./index.html",
-      template: "./index.html"
+      template: "./public/index.html"
     }),
     new CleanWebpackPlugin(),
   ],
@@ -37,14 +37,20 @@ module.exports = {
         ],
       },
       {
-        test: /\.(ttf|eot|woff|woff2)$/,
-        use: {
-          loader: 'file-loader',
-          options: {
-            name: '/fonts/[name].[ext]',
-          },
-        },
-
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader'],
+      },
+      {
+        test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]',
+              outputPath: 'fonts/'
+            }
+          }
+        ]
       },
       {
         test: /\.html$/,
