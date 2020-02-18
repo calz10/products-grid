@@ -17,7 +17,6 @@ const {
   INSERT_PRODUCTS,
   SET_NEXT_PRODUCT,
   SORT_PRODUCTS,
-  SET_PAGE
 } = productContants
 
 function productReducer(state, action) {
@@ -28,11 +27,6 @@ function productReducer(state, action) {
         products: action.payload,
         page: state.page + 1,
         fetching: false,
-      }
-    case SET_PAGE:
-      return {
-        ...state,
-        page: action.page,
       }
     case FETCHING_PRODUCTS:
       return {
@@ -47,6 +41,7 @@ function productReducer(state, action) {
     case SORT_PRODUCTS:
       return {
         ...state,
+        page: 1,
         sort: action.payload,
         newProducts: [],
       }

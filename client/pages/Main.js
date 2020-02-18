@@ -5,29 +5,47 @@ import { ProductList } from '../components/List'
 import { productData, constants } from '../reducers'
 import axios from 'axios'
 
+/** Fragment component of react */
 const { Fragment } = React
+/** getting constants value */
 const { productContants } = constants
-
+/** getting productData for reducer values */
 const { initialProductState, productReducer } = productData
 
+/**
+ * Main component of app
+ */
 const Main = () => {
-
+  /** use useReducer for more complex state management */
   const [state, dispatch] = useReducer(productReducer, initialProductState)
-
+  /** function that fetching products with condition depending on state */
   const getProducts = async () => await axios(`http://localhost:3000/products?_limit=50&_page=${state.page}&_sort=${state.sort}`)
 
+  /**
+   * Action trigger to fetch the next batch of products and put 
+   * to temporary newProducts state to not show directly in page
+   */
   const handleNextFetchProducts = async () => {
     try {
+      /** setting fetching status to true */
       dispatch({ type: productContants.FETCHING_PRODUCTS, payload: true })
+      /** getting the next products */
       const { data } = await getProducts()
+      /** setting the new products to temp array in reducer using dispatch */
       dispatch({ type: productContants.SET_NEXT_PRODUCT, payload: data })
     } catch (error) {
+      /** throw error when caught */
       throw new Error(error.message)
     }
   }
   
-  const handleSort = async() => {
-    await dispatch({ type: productContants.SET_PAGE, page: 1 })
+  /**
+   * async function that handle sorting and change states
+   */
+  const handleSort = async () => {
+    /**
+     * set fetching state with sorting value and set values to default/initial
+     */
     await dispatch({type: productContants.SORT_PRODUCTS, payload: 'price'})
   }
 
@@ -38,7 +56,11 @@ const Main = () => {
      */
     const atLastEndOfSecondLastComponent = (window.innerHeight + window.scrollY) >= (document.body.offsetHeight) - 300
 
+    /** check if client has reached the specified condition above  */
     if (atLastEndOfSecondLastComponent) {
+      /** 
+       * insert values of product from newProducts to products state by dispatch 
+       */
       dispatch({
         type: productContants.INSERT_PRODUCTS,
       })
@@ -49,26 +71,48 @@ const Main = () => {
     }
   }
 
+  /**
+   * to support scroll bind with hooks
+   */
   useEffect(() => {
       window.addEventListener("scroll", handleScroll, { passive: true });
       return () => window.removeEventListener("scroll", handleScroll);
   });
 
+  /**
+   * effect that triggers when sorting was changeed and assigned
+   */
   useEffect(() => {
     const effect = async() => {
+      /**
+       * fetch data from api
+       */
       const { data } = await getProducts()
+      /**
+       * Dispatch the gathered data to local reducer
+       */
       dispatch({ type: productContants.SET_PRODUCTS, payload: data })
     }
     effect()
   },[state.sort !== null && state.sort]);
 
+  /**
+   * initial fetch of product like componendDidMount
+   */
   useEffect(() => {
+    /**
+     * this method enable async function inside useEffect
+     */
     const fetchInitialProducts = async () => {
       try {
+        /** set state fetching to true by dispatch */
         dispatch({ type: productContants.FETCHING_PRODUCTS, payload: true })
+        /** get the value of products */
         const { data } = await getProducts()
+        /** set the products with dispatch of useReducer hooks */
         dispatch({ type: productContants.SET_PRODUCTS, payload: data })
       } catch (error) {
+        /** if error occur it throws errors */
         throw new Error(error.message)
       }
     }
