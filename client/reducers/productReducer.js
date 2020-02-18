@@ -4,7 +4,7 @@ const initialProductState = {
   products: [],
   newProducts: [],
   fetching: false,
-  endOfProducts: [],
+  endOfProducts: false,
   pageButtom: false,
   inserted: false,
   sort: null,
@@ -17,6 +17,7 @@ const {
   INSERT_PRODUCTS,
   SET_NEXT_PRODUCT,
   SORT_PRODUCTS,
+  END_PRODUCTS
 } = productContants
 
 function productReducer(state, action) {
@@ -32,6 +33,11 @@ function productReducer(state, action) {
       return {
         ...state,
         fetching: action.payload
+      }
+    case END_PRODUCTS:
+      return {
+        ...state,
+        endOfProducts: true
       }
     case SET_NEXT_PRODUCT:
       return {
@@ -49,7 +55,10 @@ function productReducer(state, action) {
       return {
         ...state,
         newProducts: [],
-        products: [...state.products, ...state.newProducts],
+        products: [
+          ...state.products,
+          ...state.newProducts
+        ],
         page: state.page + 1,
         fetching: false
       }

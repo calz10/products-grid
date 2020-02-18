@@ -4,6 +4,8 @@ import Header from '../components/Header'
 import { ProductList } from '../components/List'
 import { productData, constants } from '../reducers'
 import axios from 'axios'
+import { Selector } from '../components/Selector'
+import { Content } from '../components/Content'
 
 /** Fragment component of react */
 const { Fragment } = React
@@ -38,15 +40,15 @@ const Main = () => {
       throw new Error(error.message)
     }
   }
-  
+
   /**
    * async function that handle sorting and change states
    */
-  const handleSort = async () => {
+  const handleSort = async (item) => {
     /**
      * set fetching state with sorting value and set values to default/initial
      */
-    await dispatch({type: productContants.SORT_PRODUCTS, payload: 'price'})
+    await dispatch({ type: productContants.SORT_PRODUCTS, payload: item })
   }
 
   const handleScroll = async () => {
@@ -55,35 +57,41 @@ const Main = () => {
      * at top of last raw of component of page
      */
     const atLastEndOfSecondLastComponent = (window.innerHeight + window.scrollY) >= (document.body.offsetHeight) - 300
-
-    /** check if client has reached the specified condition above  */
-    if (atLastEndOfSecondLastComponent) {
-      /** 
-       * insert values of product from newProducts to products state by dispatch 
-       */
-      dispatch({
-        type: productContants.INSERT_PRODUCTS,
-      })
-    }
-
-    if (!state.fetching && state.newProducts.length <= 0) {
+    
+    if (!state.fetching && state.newProducts.length <= 0 && !state.endOfProducts) {
       await handleNextFetchProducts()
     }
+    
+    /** check if client has reached the specified condition above  */
+    if (atLastEndOfSecondLastComponent) {
+      /** dispatching end of fetch of products when nothing left */
+      if (!state.newProducts.length && !state.fetching) {
+        dispatch({ type: productContants.END_PRODUCTS})
+      } else {
+        /** 
+         * insert values of product from newProducts to products state by dispatch 
+         */
+        dispatch({
+          type: productContants.INSERT_PRODUCTS,
+        })
+      }
+    }
+
   }
 
   /**
    * to support scroll bind with hooks
    */
   useEffect(() => {
-      window.addEventListener("scroll", handleScroll, { passive: true });
-      return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
   });
 
   /**
    * effect that triggers when sorting was changeed and assigned
    */
   useEffect(() => {
-    const effect = async() => {
+    const effect = async () => {
       /**
        * fetch data from api
        */
@@ -94,7 +102,7 @@ const Main = () => {
       dispatch({ type: productContants.SET_PRODUCTS, payload: data })
     }
     effect()
-  },[state.sort !== null && state.sort]);
+  }, [state.sort !== null && state.sort]);
 
   /**
    * initial fetch of product like componendDidMount
@@ -123,7 +131,9 @@ const Main = () => {
     <Fragment>
       <Header />
       <Container viewContainer>
+        <Selector handleSort={handleSort} />
         <ProductList products={state.products || []} />
+        {state.endOfProducts && <Content>~ end of catalogue ~</Content>}
       </Container>
     </Fragment>
   )
