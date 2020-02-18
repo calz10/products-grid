@@ -13,6 +13,7 @@
   "author": "",
   "license": "",
   "dependencies": {
+    "axios": "^0.19.2",
     "clean-webpack-plugin": "^3.0.0",
     "cool-ascii-faces": "^1.3.4",
     "css-loader": "^3.4.2",
@@ -25,6 +26,7 @@
     "react-dom": "^16.12.0",
     "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2",
+    "regenerator-runtime": "^0.13.3",
     "style-loader": "^1.1.3"
   },
   "devDependencies": {

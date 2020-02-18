@@ -5,6 +5,9 @@ import './index.less'
 const Product = props => {
   const { isAds = false, randomizedNumber, bgColor, product: item } = props
 
+  const adsStyle = { backgroundImage: `url('http://localhost:3000/ads?r=${randomizedNumber})`}
+  const contentStyle = isAds ? adsStyle: { backgroundColor: bgColor, fontSize: item.size }
+
   return (
     <Content className="product-card">
       <Content className="product-details">
@@ -29,8 +32,10 @@ const Product = props => {
         }
       </Content>
       <Content className="product-image">
-        <Content className="image-detail" style={isAds ? { backgroundImage: `url('http://localhost:3000/ads?r=${randomizedNumber})` } : { backgroundColor: bgColor, fontSize: item.size }}>
-          {item.face}
+        <Content 
+          className="image-detail" 
+          style={contentStyle}>
+          {item && item.face}
         </Content>
       </Content>
     </Content>
