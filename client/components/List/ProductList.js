@@ -6,27 +6,26 @@ import './index.less'
 const colors = ['d1eeeb', 'fbe8e4', 'ecf4e0', 'faeefa', 'eee9e8', 'e6eafd']
 const { Fragment } = React
 
-const ProductList = ({ products = [] }) => {
+const ProductList = ({ products = [], ads = {} }) => {
   return (
     <Content className="list">
       {products.map((item, i) => {
-        const randomizedNumber = Math.floor((Math.random() * 7))
+        const randomizedColorIndex = Math.floor((Math.random() * 7))
         const currentIndex = i + 1
         const isAdsIndex = currentIndex % 20 === 1
-
         if (isAdsIndex && currentIndex > 20) {
-          return (
+        return (
             <Fragment
               key={item.id}
             >
               <ProductCard
                 key={item.id + i}
-                randomizedNumber={(Math.floor((Math.random() * 100)) + 1) + (Math.round((currentIndex - 1) / 20))}
+                randomizedNumber={ads[currentIndex] || (currentIndex/20)}
                 isAds={(isAdsIndex && currentIndex > 20)}
               />
               <ProductCard
                 key={item.id}
-                bgColor={colors[randomizedNumber]}
+                bgColor={colors[randomizedColorIndex]}
                 product={item}
               />
             </Fragment>
@@ -36,7 +35,7 @@ const ProductList = ({ products = [] }) => {
         return (
           <ProductCard
             key={item.id}
-            bgColor={colors[randomizedNumber]}
+            bgColor={colors[randomizedColorIndex]}
             product={item}
           />
         )

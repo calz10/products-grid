@@ -44,4 +44,32 @@ const formatter = {
   }
 }
 
-export default formatter
+/**
+ * 
+ * @param {*} data , array where the condition could be apply
+ * it generates random number as key or id for every after 20 items starts from 1
+ * it ensures unique values to be given
+ */
+const generateIds = (data) => {
+  return data.reduce((acc, prev,i) => {
+    if((i+1) % 20 === 1 && i) {
+      /**
+       * randomize number up to 100 and adds up additional division
+       */
+      const random = (Math.floor((Math.random() * 100)) + 1) + (Math.round(((i+1) - 1) / 20))
+
+      /**
+       *  values of object should not include the random number
+       */
+      const doesInclude = Object.values(acc).includes(random)
+      if(!doesInclude) {
+        /** if not it will be added as new value  */
+        acc[i+1] = random
+      }
+    }
+    return acc
+  }, {})
+}
+
+
+export { formatter, generateIds }

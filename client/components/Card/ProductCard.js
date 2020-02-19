@@ -1,7 +1,7 @@
 import React from 'react'
 import { Content } from '../Content'
 import './index.less'
-import formatter from '../../utils'
+import { formatter } from '../../utils'
 
 const Product = props => {
   const { isAds = false, randomizedNumber, bgColor, product: item } = props

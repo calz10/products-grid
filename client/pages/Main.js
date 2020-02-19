@@ -6,6 +6,7 @@ import { productData, constants } from '../reducers'
 import axios from 'axios'
 import { Selector } from '../components/Selector'
 import { Content } from '../components/Content'
+import { generateIds } from '../utils'
 
 /** Fragment component of react */
 const { Fragment } = React
@@ -41,6 +42,12 @@ const Main = () => {
     }
   }
 
+
+  const handleSetIds = (arr) => {
+    const ids = generateIds(arr)
+    dispatch({type: productContants.SET_ADS, payload: ids})
+  }
+
   /**
    * async function that handle sorting and change states
    */
@@ -71,9 +78,10 @@ const Main = () => {
         /** 
          * insert values of product from newProducts to products state by dispatch 
          */
-        dispatch({
+        await dispatch({
           type: productContants.INSERT_PRODUCTS,
         })
+        handleSetIds(state.products)
       }
     }
 
@@ -84,6 +92,7 @@ const Main = () => {
    */
   useEffect(() => {
     window.addEventListener("scroll", handleScroll, { passive: true });
+    console.log(state.ads)
     return () => window.removeEventListener("scroll", handleScroll);
   });
 
@@ -96,6 +105,8 @@ const Main = () => {
        * fetch data from api
        */
       const { data } = await getProducts()
+      const newArray = [...state.products, ...data]
+      handleSetIds(newArray)
       /**
        * Dispatch the gathered data to local reducer
        */
@@ -117,8 +128,12 @@ const Main = () => {
         dispatch({ type: productContants.FETCHING_PRODUCTS, payload: true })
         /** get the value of products */
         const { data } = await getProducts()
+        handleSetIds(data)
+
+        // const ids = generateIds(data)
         /** set the products with dispatch of useReducer hooks */
         dispatch({ type: productContants.SET_PRODUCTS, payload: data })
+        // dispatch({ type: productContants.SET_ADS, payload: ids })
       } catch (error) {
         /** if error occur it throws errors */
         throw new Error(error.message)
@@ -132,7 +147,7 @@ const Main = () => {
       <Header />
       <Container viewContainer>
         <Selector handleSort={handleSort} />
-        <ProductList products={state.products || []} />
+        <ProductList products={state.products || []} ads={state.ads}/>
         {state.endOfProducts && <Content>~ end of catalogue ~</Content>}
       </Container>
     </Fragment>
