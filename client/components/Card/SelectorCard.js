@@ -14,8 +14,8 @@ const SelectorCard = (props) => (
       <Content className="selector-item" onClick={() => props.handleSelect('id')}>
         ID
       </Content>
-      <Content className="selector-item" onClick={() => props.handleSelect('date')}>
-        DATE
+      <Content className="selector-item" onClick={() => props.handleSelect('size')}>
+        SIZE
       </Content>
     </Content>
   </Content>

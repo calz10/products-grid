@@ -1,6 +1,7 @@
 import React from 'react'
 import { Content } from '../Content'
 import './index.less'
+import formatter from '../../utils'
 
 const Product = props => {
   const { isAds = false, randomizedNumber, bgColor, product: item } = props
@@ -26,7 +27,7 @@ const Product = props => {
             {item.id}
           </Content>
           <Content className="product-added">
-            {new Date(item.date).toLocaleString()}
+            {formatter.dateFormatter(item.date)}
           </Content>
         </Content>
         }
