@@ -2,6 +2,10 @@ import React from 'react'
 import { Content } from '../Content'
 import './index.less'
 
+/**
+ * Customized selector component
+ * @param {*} props 
+ */
 const SelectorCard = (props) => (
   <Content className="selector-card">
     <Content className="selector-items-list">
@@ -21,4 +25,7 @@ const SelectorCard = (props) => (
   </Content>
 )
 
+/**
+ * export the SelectorCard component
+ */
 export default SelectorCard
