@@ -7,14 +7,16 @@
   "scripts": {
     "start:server": "json-server --static public/dist server/index.js --routes server/routes.json --middlewares server/handle-delay.js server/handle-ads.js",
     "build": "webpack --mode production",
-    "start:client": "webpack-dev-server --open --hot --mode development",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start:client": "webpack-dev-server --open --hot --mode development && start:server",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start:client:server": "concurrently --kill-others \"npm:start:client\" \"npm:start:server\""
   },
   "author": "",
   "license": "",
   "dependencies": {
     "axios": "^0.19.2",
     "clean-webpack-plugin": "^3.0.0",
+    "concurrently": "^5.1.0",
     "cool-ascii-faces": "^1.3.4",
     "css-loader": "^3.4.2",
     "file-loader": "^5.0.2",
