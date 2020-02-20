@@ -24,5 +24,5 @@ Features
  - clone the repository using  `git clone https://github.com/calz10/products-grid.git` and `cd products-grid`
  - install dependencies by `npm install`
  - To start`npm run start:client:server` to run development mode
- - `npm run build` to run the project on debug mode
+ - `npm run build` to run the project on production
  - `npm run start:server` to run server and use static bundled after running `npm run build`
