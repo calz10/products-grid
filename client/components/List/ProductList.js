@@ -16,7 +16,7 @@ const ProductList = ({ products = [], ads = {} }) => {
         if (isAdsIndex && currentIndex > 20) {
         return (
             <Fragment
-              key={item.id}
+              key={item.id+randomizedColorIndex}
             >
               <ProductCard
                 key={item.id + i}

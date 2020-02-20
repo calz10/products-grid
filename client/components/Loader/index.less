@@ -1,0 +1,42 @@
+.loader-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  position: absolute;
+  bottom: 2%;
+  top: 0;
+    .loader-id {
+        display: inline-flexbox;
+        width: 80px;
+        height: 80px;
+        flex-wrap: wrap;
+    }
+    .loader-id:after {
+        content: " ";
+        display: block;
+        width: 64px;
+        height: 64px;
+        margin: 8px;
+        border-radius: 50%;
+        border: 6px solid #010048;
+        border-color: #010048 transparent #010048 transparent;
+        animation: loader-id 1s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    }
+    
+    @keyframes loader-id {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+    .loading-text {
+      font-family: Montserrat;
+      margin-top: 8px;
+      color: #08124b;
+      padding-top: 16;
+      font-size: 22;
+    }
+}
