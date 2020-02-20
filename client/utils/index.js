@@ -51,8 +51,8 @@ const formatter = {
  * it ensures unique values to be given
  */
 const generateIds = (data) => {
-  return data.reduce((acc, prev,i) => {
-    if((i+1) % 20 === 1 && i) {
+  return data.reduce((acc, _,i) => {
+    if((i+1) % 20 === 1 && i > 20) {
       /**
        * randomize number up to 100 and adds up additional division
        */

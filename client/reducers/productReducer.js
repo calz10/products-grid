@@ -1,5 +1,8 @@
 import { productContants } from './constants'
 
+/**
+ * initial state of product reducer
+ */
 const initialProductState = {
   products: [],
   newProducts: [],
@@ -22,6 +25,11 @@ const {
   SET_ADS,
 } = productContants
 
+/**
+ * hooks useReducer of react
+ * @param {*} state  - current state of application required in using this hooks
+ * @param {*} action - action params provides payloads or data and type
+ */
 function productReducer(state, action) {
   switch (action.type) {
     case SET_PRODUCTS:
@@ -29,6 +37,7 @@ function productReducer(state, action) {
         ...state,
         products: action.payload,
         page: state.page + 1,
+        endOfProducts: false,
         fetching: false,
       }
     case FETCHING_PRODUCTS:
@@ -62,6 +71,7 @@ function productReducer(state, action) {
       return {
         ...state,
         newProducts: [],
+        endOfProducts: false,
         products: [
           ...state.products,
           ...state.newProducts
